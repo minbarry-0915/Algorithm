@@ -8,9 +8,19 @@ def insertion_sort(array):
             array_copy[i + 1] = array_copy[i]
             i -= 1
         array_copy[i + 1] = key
-
-  
     return array_copy
+
+def selection_sort(array):
+    array_c = array[:]
+    
+    for i in range(len(array_c)):
+        min = i
+        for j in range(i + 1, range(len(array_c))):
+            if array[min] > array[j]:
+                min = j
+        array_c[i], array_c[min] = array_c[min], array_c[i]
+        
+    return array_c
     
 def merge(array, p, q, r):
     n1 = q - p + 1  # 첫 번째 서브배열 요소 개수
@@ -61,6 +71,13 @@ def merge_insertion_sort(array, p, r, k):
         merge_insertion_sort(array, p, q, k)  # 왼쪽 서브리스트 정렬
         merge_insertion_sort(array, q + 1, r, k)  # 오른쪽 서브리스트 정렬
         merge(array, p, q, r)  # 병합
+        
+def bubble_sort(array):
+    for i in range(len(array)):
+        for j in range(len(array) - i - 1):
+            if array[j] > array[j + 1]:
+                array[j], array[j + 1] = array[j+1] , array[j]
+    return array
 
 def write(array, mode='w'):
     with open("output.txt", mode) as outfile:

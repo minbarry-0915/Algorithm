@@ -24,7 +24,7 @@ def naive_quick_sort(array, p, r):
 def randomized_partition(array, p ,r):
     rand_index = random.randint(p, r)
     array[rand_index], array[r] = array[r], array[rand_index]  # 피벗을 배열의 끝으로 이동
-    
+
     return partition(array, p, r)
 
 def randomized_partition_with_median(array, p, r):
