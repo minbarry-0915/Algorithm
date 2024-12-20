@@ -1,2 +1,7 @@
-# Algorithm
-This is for studying algorithm
+# 이 프로젝트는 알고리즘 학습을 위한 저장소입니다. 
+# 주요 폴더로는 baekjoon, sw_expert_academy 등이 있으며, 각 폴더에는 알고리즘 문제 해결 코드가 포함되어 있습니다.
+
+주요 기능 포인트
+백준 온라인 저지 문제 해결 코드 제공
+코드 구현 연습을 위한 다양한 알고리즘 문제 해결 코드 제공
+SW Expert Academy 문제 해결 코드 제공
