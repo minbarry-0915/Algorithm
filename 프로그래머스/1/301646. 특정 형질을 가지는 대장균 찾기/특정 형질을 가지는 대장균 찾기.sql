@@ -1,0 +1,4 @@
+SELECT COUNT(ID) AS COUNT
+FROM ECOLI_DATA
+WHERE GENOTYPE & 2 = 0 #2번 형질을 포함하지 않음
+AND (GENOTYPE & 4 >= 1 OR GENOTYPE & 1 >= 1); #3번 혹은 1번 형질을 포함
