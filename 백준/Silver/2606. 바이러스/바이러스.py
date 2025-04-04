@@ -1,30 +1,30 @@
+import sys
 from collections import deque
+input = sys.stdin.readline
 
-def bfs(graph, start):
+n = int(input())
+m = int(input())
+graph = {i: [] for i in range(1, n + 1)}
+visited = {i: False for i in range(1, n + 1)}
+
+for _ in range(m):
+    x, y = map(int, input().split())
+    graph[x].append(y)
+    graph[y].append(x)
+
+
+def bfs(start):
     queue = deque([start])
-    visited = [False] * (n + 1)
-    visited[start] = True
-    count = 0  # 감염된 컴퓨터 수
-
+    count = 0
     while queue:
-        node = queue.popleft()
-        for neighbor in graph[node]:
+        current = queue.popleft()
+        visited[current] = True
+        for neighbor in graph[current]:
             if not visited[neighbor]:
-                queue.append(neighbor)
                 visited[neighbor] = True
-                count += 1  # 감염된 컴퓨터 수 증가
+                queue.append(neighbor)
+                count += 1
+
     return count
 
-# 입력 처리
-n = int(input())  # 컴퓨터 수 (노드 수)
-v = int(input())  # 직접 연결된 컴퓨터 쌍의 수 (간선 수)
-
-graph = {i: [] for i in range(1, n + 1)}
-
-for _ in range(v):
-    a, b = map(int, input().split())
-    graph[a].append(b)
-    graph[b].append(a)
-
-# 1번 컴퓨터에서 BFS 실행
-print(bfs(graph, 1))
+print(bfs(1))
