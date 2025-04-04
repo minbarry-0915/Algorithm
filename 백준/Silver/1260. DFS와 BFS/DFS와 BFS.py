@@ -1,41 +1,44 @@
+import sys
 from collections import deque
 
+sys.setrecursionlimit(10 ** 6)
 
-def dfs(graph, v, visited):
-    visited[v] = True
-    print(v, end=' ')
-    for neighbor in sorted(graph[v]):  # 정점 번호가 작은 것부터 방문
-        if not visited[neighbor]:
-            dfs(graph, neighbor, visited)
+input = sys.stdin.readline
 
-
-def bfs(graph, start):
-    visited = {key: False for key in graph}
-    queue = deque([start])
-    visited[start] = True
-
-    while queue:
-        v = queue.popleft()
-        print(v, end=' ')
-        for neighbor in sorted(graph[v]):  # 정점 번호가 작은 것부터 방문
-            if not visited[neighbor]:
-                queue.append(neighbor)
-                visited[neighbor] = True
-
-
-# 입력 받기
 n, m, v = map(int, input().split())
 graph = {i: [] for i in range(1, n + 1)}
 
-for _ in range(m):
-    a, b = map(int, input().split())
-    graph[a].append(b)
-    graph[b].append(a)
+for i in range (1, m + 1):
+    x, y = map(int, input().split())
+    graph[x].append(y)
+    graph[y].append(x)
 
-# DFS 실행
-visited_dfs = {key: False for key in graph}
-dfs(graph, v, visited_dfs)
+for key in graph:
+    graph[key].sort()
+
+visited_dfs = {i: False for i in range(1, n + 1)}
+
+def dfs(v):
+    visited_dfs[v] = True
+    print(v, end=' ')
+    for neighbor in graph[v]:
+        if not visited_dfs[neighbor]:
+            dfs(neighbor)
+
+visited_bfs = {i: False for i in range(1, n + 1)}
+
+def bfs(start):
+    queue = deque([start])
+    visited_bfs[v] = True
+    while queue:
+        current = queue.popleft()
+        print(current, end= ' ')
+        for neighbor in graph[current]:
+            if not visited_bfs[neighbor]:
+                visited_bfs[neighbor] = True
+                queue.append(neighbor)
+                
+dfs(v)
 print()
+bfs(v)
 
-# BFS 실행
-bfs(graph, v)
