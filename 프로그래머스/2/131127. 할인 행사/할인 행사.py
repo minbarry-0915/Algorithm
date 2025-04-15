@@ -1,14 +1,14 @@
 from collections import Counter
 
 def solution(want, number, discount):
-    want_dict = dict(zip(want, number))
+    wanted = dict(zip(want, number))
+    n = len(discount)
+    # 슬라이딩 윈도우로 10개 뽑아내기
     answer = 0
-    
-    for i in range(len(discount) - 9):  # 10일씩 자르기 위해 -9
-        window = discount[i:i + 10]
-        counter = Counter(window)
+    for i in range(0, n - 9):
+        discounted = discount[i : i + 10]
+        counter = Counter(discounted)
         
-        if all(counter[item] >= want_dict[item] for item in want_dict):
+        if all (counter[item] >= wanted[item] for item in wanted):
             answer += 1
-            
     return answer
