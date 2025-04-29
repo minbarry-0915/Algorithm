@@ -1,23 +1,21 @@
+for _ in range(10):
+    t_num = int(input())
+    grid = [list(map(int, input().split())) for _ in range(100)]
+    n = 100
+    min_y = -1
 
-for _ in range(1, 11) :
-    tc = int(input())
-    data = [list(map(int, input().split())) for _ in range(100)]
+    for i in range(n):
+        if grid[99][i] == 2:
+            x, y = 99, i
+            break
 
-    result = 0
-    for i in range(100) :
-        if data[0][i] == 1 : # 시작
-            x, y = 0, i
-            while x != 99 :
-                x += 1
-                if y > 0 and data[x][y-1] == 1 :
-                    while y > 0 and data[x][y-1] == 1 :
-                        y -= 1
-                elif y < 99 and data[x][y+1] == 1 :
-                    while y < 99 and data[x][y+1] == 1 :
-                        y += 1
+    while x > 0:
+        if y > 0 and grid[x][y - 1] == 1:
+            while y > 0 and grid[x][y - 1] == 1:
+                y -= 1
+        elif y < n - 1 and grid[x][y + 1] == 1:
+            while y < n - 1 and grid[x][y + 1] == 1:
+                y += 1
+        x -= 1
 
-            if data[x][y] == 2 :
-                result = i
-                break
-
-    print('#%d %d' % (tc, result))
+    print(f'#{t_num} {y}')
