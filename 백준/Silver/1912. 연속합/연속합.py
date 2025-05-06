@@ -1,13 +1,15 @@
 import sys
+
+# sys.stdin = open('input.txt', 'r')
 input = sys.stdin.readline
 
 n = int(input())
-arr = list(map(int, input().split()))
+lst = list(map(int, input().split()))
+dp = lst[::]
 
-dp = [0] * (n)
-dp[0] = arr[0]
-
-for i in range(1, n):
-    dp[i] = max(arr[i], dp[i - 1] + arr[i])
-
-print(max(dp))
+if n == 1:
+    print(dp[0])
+else:
+    for i in range(1, n):
+        dp[i] = max(dp[i], dp[i - 1] + lst[i])
+    print(max(dp))
