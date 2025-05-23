@@ -4,40 +4,30 @@ dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
 
 
-def bfs(sx, sy, ex, ey, visited, grid):
+def bfs(grid, end_x, end_y):
     queue = deque()
-    queue.append((sx, sy))
-    visited[sx][sy] = True
+    queue.append((1, 1))
+    visited = [[False] * 16 for _ in range(16)]
+    visited[1][1] = True
 
     while queue:
-        cx, cy = queue.popleft()
-        if cx == ex and cy == ey:
-            return 1
-
+        x,y = queue.popleft()
+        if x == end_x and y == end_y:
+            return True
         for d in range(4):
-            nx = cx + dx[d]
-            ny = cy + dy[d]
+            nx, ny = x + dx[d], y + dy[d]
             if 0 <= nx < 16 and 0 <= ny < 16 and not visited[nx][ny] and grid[nx][ny] != '1':
-                queue.append((nx, ny))
+                queue.append((nx,ny))
                 visited[nx][ny] = True
 
-    return 0
-
+    return False
 
 for _ in range(10):
     t = int(input())
-    grid = [input().strip() for _ in range(16)]
-    visited = [[False] * 16 for _ in range(16)]
-
-    start_x, start_y = 0, 0
-    end_x, end_y = 0, 0
-
+    grid = [list(input()) for _ in range(16)]
     for i in range(16):
         for j in range(16):
-            if grid[i][j] == '2':
-                start_x, start_y = i, j
-            elif grid[i][j] == '3':
+            if grid[i][j] == '3':
                 end_x, end_y = i, j
-
-    result = bfs(start_x, start_y, end_x, end_y, visited, grid)
-    print(f'#{t} {result}')
+    print(f'#{t}', end=' ')
+    print(1 if bfs(grid, end_x, end_y) else 0)
