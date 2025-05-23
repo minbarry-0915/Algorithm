@@ -1,19 +1,17 @@
-pair = {')': '(', ']': '[', '}': '{', '>': '<'}
-
-def is_valid_brackets(brackets):
-    stack = []
-    for c in brackets:
-        if c in '([{<':
-            stack.append(c)
-        elif c in ')]}>':
-            if not stack or stack[-1] != pair[c]:
-                return 0
-            stack.pop()
-    return 1
-
-
 for t in range(1, 11):
     n = int(input())
-
-    brackets = input().strip()
-    print(f'#{t} {is_valid_brackets(brackets)}')
+    brackets = list(input().strip())
+    stack = []
+    pair = {')': '(', ']': '[', '}': '{', '>': '<'}
+    valid = 1
+    for token in brackets:
+        if token in "([{<":
+            stack.append(token)
+        elif token in ")]}>":
+            if not stack or stack[-1] != pair[token]:
+                valid = 0
+                break
+            stack.pop()
+    if stack:
+        valid = 0
+    print(f'#{t} {valid}')
