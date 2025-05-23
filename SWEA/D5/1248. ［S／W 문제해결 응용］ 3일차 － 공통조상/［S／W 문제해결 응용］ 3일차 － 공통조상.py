@@ -1,44 +1,34 @@
-# import sys
-from collections import defaultdict
+def find_common_ancestor(parents, a, b):
+    ancestors = set()
 
-# sys.stdin = open('input.txt', 'r', encoding='utf-8')
+    while a:
+        ancestors.add(a)
+        a = parents[a]
+    while b:
+        if b in ancestors:
+            return b
+        b = parents[b]
+    return None
 
-
-def find_parent(node):
-    path = []
-    while node in parent:
-        path.append(node)
-        node = parent[node]
-    path.append(node)
-    return path
-
-
-def get_subtree_size(node):
+def count_subtree(tree,root):
     count = 1
-    for child in tree.get(node, []):
-        count += get_subtree_size(child)
+    for child in tree[root]:
+        count += count_subtree(tree, child)
     return count
 
-
 T = int(input())
+
 for t in range(1, T + 1):
-    v, e, n1, n2 = map(int, input().split())
-    data = list(map(int, input().split()))
-    tree = defaultdict(list) # {i: []}
-    parent = defaultdict(int) # {i: number}
+    v, e, num1, num2 = map(int, input().split())
+    temp = list(map(int,input().split()))
+    tree = {i: [] for i in range(1, v + 1)}
+    parents = [0] * (v + 1)
 
-    for i in range(0, len(data), 2):
-        p, c = data[i], data[i + 1]
-        tree[p].append(c)
-        parent[c] = p
+    for i in range(0, len(temp), 2):
+        parent, child = temp[i], temp[i + 1]
+        tree[parent].append(child)
+        parents[child] = parent
 
-    path1 = find_parent(n1)
-    path2 = find_parent(n2)
-
-    for ancestor in path1:
-        if ancestor in path2:
-            lca = ancestor
-            break
-
-    size = get_subtree_size(lca)
-    print(f'#{t} {lca} {size}')
+    lca = find_common_ancestor(parents, num1, num2)
+    subtree_size = count_subtree(tree, lca)
+    print(f'#{t} {lca} {subtree_size}')
