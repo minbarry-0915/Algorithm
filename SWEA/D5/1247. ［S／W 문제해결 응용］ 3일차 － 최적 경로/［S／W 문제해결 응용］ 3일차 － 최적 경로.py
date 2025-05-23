@@ -1,36 +1,37 @@
-# import sys
-from collections import deque
-import math
-# sys.stdin = open('input.txt', 'r', encoding='utf-8')
+T = int(input())
 
-def dfs(distance,x,y):
+def manhattan(p1, p2):
+    return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])
 
-    if all(visited):
-        global min_dist
-        distance += abs(hx - x) + abs(hy - y) # 집으로 돌아가는 경로 더하기
-        min_dist = min(min_dist,distance)
+def dfs(idx, depth, visited, dist_sum, n):
+    global min_dist
+    if depth == n:
+        dist_sum += manhattan(customers[idx], home)
+        min_dist = min(min_dist, dist_sum)
+        return
+
+    if dist_sum >= min_dist:
         return
 
     for i in range(n):
-        nx,ny = cus_positions[i]
         if not visited[i]:
             visited[i] = True
-            dist = abs(nx-x) + abs(ny - y)
-            dfs(distance + dist, nx,ny)
+            dfs(i, depth + 1, visited, dist_sum + manhattan(customers[idx], customers[i]), n)
             visited[i] = False
 
-T = int(input())
 for t in range(1, T + 1):
     n = int(input())
-    temp = list(map(int, input().split()))
-    positions = [(temp[i], temp[i + 1]) for i in range(0, len(temp), 2)]
+    buffer = list(map(int, input().split()))
+    company = (buffer[0], buffer[1])
+    home = (buffer[2], buffer[3])
+    customers = [(buffer[i], buffer[i + 1]) for i in range(4, len(buffer), 2)]
 
+    min_dist = int(1e9)
     visited = [False] * n
 
-    cx, cy = positions[0]  # 회사
-    hx, hy = positions[1]  # 집
-    cus_positions = positions[2:]  # 고객들
-    min_dist = int(1e9)
-    dfs(0,cx,cy)
-    print(f'#{t} {min_dist}')
+    for i in range(n):
+        visited[i] = True
+        dfs(i, 1, visited, manhattan(company, customers[i]), n)
+        visited[i] = False
 
+    print(f'#{t} {min_dist}')
