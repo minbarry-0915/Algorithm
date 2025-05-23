@@ -1,21 +1,20 @@
 for _ in range(10):
-    t_num = int(input())
-    grid = [list(map(int, input().split())) for _ in range(100)]
+    t = int(input())
     n = 100
-    min_y = -1
+    grid = [list(map(int, input().split())) for _ in range(n)]
 
-    for i in range(n):
-        if grid[99][i] == 2:
-            x, y = 99, i
-            break
+    x = 99
+    y = grid[99].index(2)
 
     while x > 0:
         if y > 0 and grid[x][y - 1] == 1:
             while y > 0 and grid[x][y - 1] == 1:
                 y -= 1
+            x -= 1
         elif y < n - 1 and grid[x][y + 1] == 1:
             while y < n - 1 and grid[x][y + 1] == 1:
                 y += 1
-        x -= 1
-
-    print(f'#{t_num} {y}')
+            x -= 1
+        else:
+            x -= 1
+    print(f'#{t} {y}')
