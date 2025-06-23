@@ -1,19 +1,15 @@
-import sys
-input = sys.stdin.readline
-
 T = int(input())
-dp = [[0] * 30 for _ in range(30)]
+dp = [[0] * 31 for _ in range(31)]
 
-for i in range(30):
-    for j in range(30):
-        if i == 1:
-            dp[i][j] = j
+for n in range(31):
+    for k in range(n + 1):
+        if k == 0 or k == n: #0개를 고르거나 전체를 다 고르는 경우는 항상 1가지
+            dp[n][k] = 1
         else:
-            if i == j:
-                dp[i][j] = 1
-            elif i < j:
-                dp[i][j] = dp[i - 1][j - 1] + dp[i][j - 1]
+            # n 개중에 1개를 고정하고 이를 A라고 했을때, A가 포함되는 경우와 포함되지 않는 경우를 기반으로 점화식 추출
+            # n-1 C r-1 + n-1 C r 이 되는거임
+            dp[n][k] = dp[n - 1][k - 1] + dp[n - 1][k]
 
 for _ in range(T):
-    n, m = list(map(int, input().split()))
-    print(dp[n][m])
+    n, m = map(int, input().split())
+    print(dp[m][n])
