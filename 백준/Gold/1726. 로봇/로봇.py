@@ -1,58 +1,63 @@
-from collections import deque
-# 동 남 서 북
-dx = [0,1,0,-1]
-dy = [1,0,-1,0]
+# 북동남서 시계 방향
+dx = [-1,0,1,0]
+dy = [0,1,0,-1]
 
-direction_to_index = {
-  1: 0,
-  2: 2,
-  3: 1,
-  4: 3
-}
+# 방향 재계산 동서남북 -> 북동남서 
+def get_real_dir(dir):
+  if dir == 1: # 동
+    return 1
+  elif dir == 2: #서
+    return 3
+  elif dir == 3: #남
+    return 2
+  elif dir == 4: #북
+    return 0
 
-n,m = map(int,input().split())
-
-grid = [list(map(int,input().split())) for _ in range(n)]
+# 입력
+m, n = map(int,input().split())
+grid = [list(map(int,input().split())) for _ in range(m)]
 sx,sy,sd = map(int,input().split())
-sx,sy,sd = sx - 1,sy - 1,direction_to_index[sd] # 0 - index, 동남서북 기준으로 변환
 ex,ey,ed = map(int,input().split())
-ex,ey,ed = ex - 1,ey - 1,direction_to_index[ed]  # 0 - index
+k = 3 # 이동 가능 거리
 
-visited = [[[-1] * 4 for _ in range(m)] for _ in range(n)]
+# 1-based -> 0-based
+sx,sy = sx - 1, sy - 1
+ex,ey = ex - 1, ey - 1
+# 방향 재할당
+sd = get_real_dir(sd)
+ed = get_real_dir(ed)
 
-queue = deque()
-queue.append((sx,sy,sd,0))
-visited[sx][sy][sd] = 0
+from collections import deque
+# 완전 탐색 : bfs
+def bfs():
+    visited = [[[False]*4 for _ in range(n)] for _ in range(m)]
+    queue = deque()
+    queue.append((sx, sy, sd, 0))
+    visited[sx][sy][sd] = True
 
-while queue:
-  x,y,cd,cnt = queue.popleft()
+    while queue:
+        x, y, d, move = queue.popleft()
 
-  if x == ex and y == ey and cd == ed:
-    print(visited[ex][ey][ed])
-    break
-  
-  # 1,2,3 만큼 직진 
-  for k in range(1,4):
-    nx = x + k * dx[cd]
-    ny = y + k * dy[cd]
-    
-    if not (0 <= nx < n and 0 <= ny < m):
-        break
-    if grid[nx][ny] == 1:
-        break
-    if visited[nx][ny][cd] == -1:
-        visited[nx][ny][cd] = cnt + 1
-        queue.append((nx,ny,cd,cnt + 1))
+        if (x, y, d) == (ex, ey, ed):
+            return move
 
-  # 오른쪽 회전
-  nd = (cd + 1) % 4
-  if visited[x][y][nd] == -1:
-    visited[x][y][nd] = cnt + 1
-    queue.append((x,y,nd,cnt + 1))
-  
-  # 왼쪽 회전
-  nd = (cd - 1) % 4
-  if visited[x][y][nd] == -1:
-    visited[x][y][nd] = cnt + 1
-    queue.append((x,y,nd,cnt + 1))
+        # 좌우 회전
+        for nd in [(d-1)%4, (d+1)%4]:
+            if not visited[x][y][nd]:
+                visited[x][y][nd] = True
+                queue.append((x, y, nd, move + 1))
 
+        # 직진 1~3칸
+        for dist in range(1, 4):
+            nx = x + dx[d]*dist
+            ny = y + dy[d]*dist
+            if 0 <= nx < m and 0 <= ny < n:
+                if grid[nx][ny] == 1:
+                    break
+                if not visited[nx][ny][d]:
+                    visited[nx][ny][d] = True
+                    queue.append((nx, ny, d, move + 1))
+            else:
+                break
+
+print(bfs())
