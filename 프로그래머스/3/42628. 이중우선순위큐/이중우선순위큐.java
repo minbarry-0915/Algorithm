@@ -30,11 +30,10 @@ class Solution {
         // 최댓값 최솟값 계산
         int[] answer = {0,0};
         
-        if (!heap.isEmpty()) {
-            answer[0] = reversedHeap.peek();
-            answer[1] = heap.peek();
-        }
-
+        if (!heap.isEmpty()){
+            answer[0] = reversedHeap.poll();
+            answer[1] = heap.poll();
+        } 
         return answer;
     }
 }
