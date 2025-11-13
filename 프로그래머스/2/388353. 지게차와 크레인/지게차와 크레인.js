@@ -18,7 +18,17 @@ function solution(storage, requests) {
     }
     newStorage.push(Array(m + 2).fill('0'))
     
-    const update = () => {
+    // Request Handling
+    requests.forEach(r => {
+        if (r.length === 1){
+            fork(r)
+        }
+        else {
+            crain(r)
+        }
+    })
+    
+    function update () {
         const queue = []
         const visited = Array.from({length: n + 2},() => Array(m + 2).fill(false))
         queue.push([0,0])
@@ -47,7 +57,7 @@ function solution(storage, requests) {
         return
     }
     
-    const fork = (request) => {
+    function fork (request) {
         const buffer = []
         
         for (let i = 0; i < n + 2; i ++){
@@ -73,7 +83,7 @@ function solution(storage, requests) {
         return
     }
     
-    const crain = (request) => {
+    function crain (request) {
         const target = request[0]
         const buffer = []
         
@@ -92,18 +102,6 @@ function solution(storage, requests) {
         update()
         return
     }
-    
-
-    
-    // Request Handling
-    requests.forEach(r => {
-        if (r.length === 1){
-            fork(r)
-        }
-        else {
-            crain(r)
-        }
-    })
     
     for (const s of newStorage) console.log(...s)
     
