@@ -1,10 +1,10 @@
 # [level 2] 요격 시스템 - 181188 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/181188) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/181188?language=python3) 
 
 ### 성능 요약
 
-메모리: 170 MB, 시간: 457.22 ms
+메모리: 129 MB, 시간: 1710.50 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 11월 13일 15:30:01
+2025년 11월 13일 15:31:35
 
 ### 문제 설명
 
